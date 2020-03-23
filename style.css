@@ -1,34 +1,175 @@
 *, *::before, *::after{
-    padding: 0;
-    margin: 0;
     box-sizing: border-box;
-    font-size: 2rem;
-    color: #ddd;
+    margin: 0;
+    padding: 0;
+}
+:root{
+    --cell-size: 100px;
+    --text-size: calc(var(--cell-size)*0.9);
 }
 body{
-    height: 100vh;
-    background: linear-gradient(to left, rgba(0, 0, 0, 0.74), rgba(51, 51, 248, 0.774));
+    background-color: #eee;
 }
-#wrapper{
-    height: 100vh;
+#board{   
+    height: 100vh; 
+     display: grid;
+    grid-template-columns: repeat(3, auto);
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+}
+/* Styling cells */
+#board .cell{
+    height: var(--cell-size);
+    width: var(--cell-size);
+    border: 1px solid #000;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
-#buttons{
-    border: 2px solid gray;
-    width: 10rem;
-    height: 60vh;
-    background-color: #111;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 5px;
+/* Styling cells ends here */
+
+
+
+/* Styling x elements */
+#board .cell.x::before,
+#board .cell.x::after{
+    content: '';
+    height: var(--text-size);
+    width: calc(var(--text-size)*0.15);
+    background-color: #000;
+    border-radius: 15px;
+    position: absolute;
 }
-#buttons>div{
+#board .cell.x::before{
+    transform: rotateZ(45deg);
+}
+#board .cell.x::after{
+    transform: rotateZ(-45deg);
+}
+/* Styling circles */
+#board .cell.circle::before,
+#board .cell.circle::after{
+    content: '';
+    border-radius: 50%;
+    position: absolute;
+}
+#board .cell.circle::before{
+     width: var(--text-size);
+     height: var(--text-size);
+     background-color: #000;
+}
+#board .cell.circle::after{
+    background-color: #ddd;
+    width: calc(var(--text-size) * 0.7);
+    height: calc(var(--text-size) * 0.7);
+}
+/* Styling cells which are neither crossed nor circled */
+#board .cell:not(.x):not(.circle):hover{
     cursor: pointer;
-    background-color: rgba(7, 94, 94, 0.705);
+}
+#board .cell.x, 
+#board .cell.circle:hover{
+    cursor: not-allowed;
+}
+/* Styling hovered cells  starts here*/
+
+/* Styling for cross */
+#board.x .cell:not(.x):not(.circle):hover::before,
+#board.x .cell:not(.x):not(.circle):hover::after{
+    content: '';
+    height: var(--text-size);
+    width: calc(var(--text-size)*0.15);
+    background-color: lightgray;
+    border-radius: 15px;
+    position: absolute;
+}
+#board.x .cell:not(.x):not(.circle):hover::before{
+    transform: rotateZ(45deg);
+}
+#board.x .cell:not(.x):not(.circle):hover::after{
+    transform: rotateZ(-45deg);
+}
+/* Styling for cross ends here */
+
+/* Styling for circle */
+#board.circle .cell:not(.x):not(.circle):hover::before,
+#board.circle .cell:not(.x):not(.circle):hover::after{
+    content: '';
+    border-radius: 15px;
+    border-radius: 50%;
+    position: absolute;
+}
+#board.circle .cell:not(.x):not(.circle):hover::before{
+    height: var(--text-size);
+    width: var(--text-size);
+    background-color: lightgray;
+}
+#board.circle .cell:not(.x):not(.circle):hover::after{
+    height: calc(var(--text-size)*0.7);
+    width: calc(var(--text-size)*0.7);
+    background-color: #eee;
+}
+/* Styling for circle ends here */
+
+/* Styling hovered cells  ends here*/
+
+/* Styling cells which are neither crossed nor circled ends here*/
+
+/* Styling board */
+#board .cell:nth-child(1),
+#board .cell:nth-child(2),
+#board .cell:nth-child(3){
+    border-top: none;
+}
+
+#board .cell:nth-child(3n+1){
+    border-left: none;
+}
+#board .cell:nth-child(3n+3){
+    border-right: none;
+}
+#board .cell:nth-child(7),
+#board .cell:nth-child(8),
+#board .cell:nth-child(9){
+    border-bottom: none;
+}
+#win-condtion
+{
+    display: none;
+}
+
+#win-condtion.won{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(20, 19, 19, 0.801);
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+
+}
+#win-condtion.won .win-message{
+    font-size: 3rem;
+    color: #fff;
+}
+#win-condtion.won button{
+    padding: 1rem;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: rgba(26, 21, 21, 0.795);
+    cursor: pointer;
+    border: 3px solid #fff;
+    transition: 500ms;
+}
+
+#win-condtion.won button:hover{
+    background-color: rgba(255, 255, 255, 0.932);
+    color: rgba(26, 21, 21, 0.795);
+    border-color: #272727;
 }
